@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useRef, useState } from "react"
+import P5Sketch from "./components/P5Sketch"
+import Hero from "./components/sections/Hero"
+import About from "./components/sections/About"
+import Skills from "./components/sections/Skills"
+import Experience from "./components/sections/Experience"
+import Projects from "./components/sections/Projects"
+import Education from "./components/sections/Education"
+import Contact from "./components/sections/Contact"
+import Navigation from "./components/Navigation"
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [activeSection, setActiveSection] = useState("hero")
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["hero", "about", "skills", "experience", "projects", "education", "contact"]
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div ref={containerRef} className="relative w-full overflow-x-hidden">
+      {/* Background p5.js animation */}
+      <div className="fixed inset-0 -z-10">
+        <P5Sketch />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      {/* Navigation */}
+      <Navigation activeSection={activeSection} />
+
+      {/* Main content */}
+      <main className="relative z-10">
+        <Hero />
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Education />
+        <Contact />
+      </main>
+    </div>
   )
 }
-
-export default App

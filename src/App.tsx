@@ -8,9 +8,11 @@ import Projects from "./components/sections/Projects"
 import Education from "./components/sections/Education"
 import Contact from "./components/sections/Contact"
 import Navigation from "./components/Navigation"
+import KnowledgeVault from "./pages/KnowledgeVault"
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("hero")
+  const [route, setRoute] = useState<string>(window.location.hash)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,6 +36,12 @@ export default function App() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const onHash = () => setRoute(window.location.hash)
+    window.addEventListener("hashchange", onHash)
+    return () => window.removeEventListener("hashchange", onHash)
+  }, [])
+
   return (
     <div ref={containerRef} className="relative w-full overflow-x-hidden">
       {/* Background p5.js animation */}
@@ -46,13 +54,19 @@ export default function App() {
 
       {/* Main content */}
       <main className="relative z-10">
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact />
+        {route === "#vault" ? (
+          <KnowledgeVault />
+          ) : (
+            <>
+              <Hero />
+              <About />
+              <Skills />
+              <Experience />
+              <Projects />
+              <Education />
+              <Contact />
+            </>
+          )}
       </main>
     </div>
   )

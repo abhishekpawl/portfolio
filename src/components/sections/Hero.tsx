@@ -57,6 +57,22 @@ export default function Hero() {
             >
               Get In Touch
             </a>
+            <button
+              onClick={() => (window.location.hash = "vault")}
+              className="relative inline-flex items-center justify-center px-8 py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary/10 transition-all duration-300 cursor-pointer"
+              title="Open Knowledge Vault"
+            >
+              Knowledge Vault
+              <span
+                aria-hidden="true"
+                className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-400 to-yellow-500 text-white flex items-center justify-center text-[10px] shadow-md ring-1 ring-white/20 z-10 animate-pulse pointer-events-none"
+                title="Special"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                  <path d="M12 .587l3.668 7.431L24 9.748l-6 5.847L19.335 24 12 20.201 4.665 24 6 15.595 0 9.748l8.332-1.73L12 .587z"/>
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
       </div>
